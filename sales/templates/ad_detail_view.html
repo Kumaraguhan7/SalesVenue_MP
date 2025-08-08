@@ -42,6 +42,11 @@
             <p><em>Ad contact information is hidden.</em></p>
         {% endif %}
 
+        {% if ad.user == request.user %}
+            <a href="{% url 'ad_update' ad.pk %}" class="btn btn-warning">Edit</a>
+            <a href="{% url 'ad_delete' ad.pk %}" class="btn btn-danger">Delete</a>
+        {% endif %}
+
         {% if images %}
             <div class="ad-image-gallery">
                 {% for image in images %}

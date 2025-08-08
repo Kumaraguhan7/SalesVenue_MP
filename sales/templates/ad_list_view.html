@@ -2,6 +2,10 @@
 {% block content %}
     <h1 class="page-title">Ads For You</h1>
 
+    <div>
+        <a href="{% url 'ad_create' %}" class="btn btn-primary">+ Create New Ad</a> <br> <br>
+    </div>
+
     {% for ad in ads %}
         <div class="ad-card">
             <div class="ad-card-body">
