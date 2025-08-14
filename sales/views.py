@@ -168,6 +168,12 @@ class ConversationDetailView(LoginRequiredMixin, DetailView):
         conversation = self.get_object()
         if request.user not in (conversation.owner, conversation.buyer):
             return HttpResponseForbidden("You don't have access to this conversation.")
+
+        Message.objects.filter(
+            conversation=conversation,
+            read=False
+        ).exclude(sender=request.user).update(read=True)
+
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -360,6 +366,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.get_user()
         conversations = self._get_user_conversations(user)
+
+        for conv in conversations:
+            conv.has_unread = conv.has_unread_for(user)
 
         context["user_obj"] = user
         context["conversations"] = conversations

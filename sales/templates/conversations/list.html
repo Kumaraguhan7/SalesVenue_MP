@@ -4,6 +4,9 @@
     <li>
         <a href="{% url 'conversation_detail' conv.pk %}">
             {{ conv.ad.title }} — Other: {{ conv.other_username }} — {{ conv.created_at|date:"M d, Y H:i" }}
+            {% if conv.has_unread %}
+                <span class="text-danger fw-bold">(Have unread)</span>
+            {% endif %}
         </a>
     </li>
     {% empty %}
